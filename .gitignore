@@ -21,3 +21,8 @@
 
 # virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
 hs_err_pid*
+
+
+# 인텔리제이 자동으로 생성되는 파일
+.gradle
+.idea
