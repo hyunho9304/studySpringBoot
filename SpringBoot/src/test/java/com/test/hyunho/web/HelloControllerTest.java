@@ -12,6 +12,9 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content ;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status ;
 
+import static org.hamcrest.Matchers.is;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+
 @RunWith( SpringRunner.class )  //  JUnit 과 SpringBoot 연결
 @WebMvcTest( controllers = HelloController.class )  //  Web 컨트롤러 테스트에 사용
 public class HelloControllerTest {
@@ -26,6 +29,22 @@ public class HelloControllerTest {
         mvc.perform( get("/hello" ) ) //  /hello URI 로 GET 요청
                 .andExpect( status().isOk() )   //  status 번호 검증 isOk = 200
                 .andExpect( content().string( hello ) ) ;   //  내용이 hello 맞는지 검증
+    }
+
+    @Test
+    public void helloDto가_리턴된다() throws Exception {
+
+        String name = "hello" ;
+        int amount = 1000 ;
+
+        mvc.perform(
+                get("/hello/dto" )
+                        .param( "name" , name )
+                        .param( "amount" , String.valueOf( amount ))
+        )
+                .andExpect( status().isOk() )
+                .andExpect( jsonPath( "$.name" , is( name )))
+                .andExpect( jsonPath( "$.amount" , is( amount ))) ;
     }
 }
 
